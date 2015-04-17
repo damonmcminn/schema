@@ -1,23 +1,7 @@
 'use strict';
-var main = require('../../lib/validators/main');
+var main = require('../../lib/validators/getFields');
 
 describe('validators/main', function() {
-
-  it('should return TypeError if value does not match schema type', function() {
-
-    // has been converted to typed schema
-    let schema = {
-      field: 'num',
-      type: 'Number',
-    };
-
-    let doc = {
-      num: 'not a num'
-    }
-
-    expect(main([], schema, doc).name).toBe('TypeError');
-
-  });
 
   it('should return a list of field/value pairs to validate', function() {
 
@@ -34,8 +18,10 @@ describe('validators/main', function() {
     };
     
     let result = main(['min'], schema, doc);
+    let noFields = main([], schema, doc);
     expect(result.length).toBe(1);
     expect(result[0].min).toBe(1);
+    expect(noFields.length).toBe(0);
 
   });
 
