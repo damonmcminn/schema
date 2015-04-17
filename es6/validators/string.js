@@ -4,7 +4,8 @@ import v from 'validate.js';
 
 const NumberError = ErrorFactory('number');
 
-const fields = ['min', 'max'];
+// no fields as of yet
+const fields = [];
 
 export default function(schema, doc) {
 
@@ -13,9 +14,6 @@ export default function(schema, doc) {
   if (!v.isString(val)) {
     return new TypeError(`${val} not ${schema.type}`);
   }
-  
-  let xs = main(fields, schema);
-  console.log(xs);
-  return xs;
 
+  return true;
 }
