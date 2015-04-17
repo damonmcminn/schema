@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../es6/validators/index.js"],"names":[],"mappings":";;;;;;;;sBAAmB,UAAU;;;;qBAEd;AACb,6BAAgB;CACjB","file":"es6/validators/index.js","sourcesContent":["import string from './string';\n\nexport default {\n  'String': string\n}\n"]}

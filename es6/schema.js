@@ -1,9 +1,10 @@
+import {install} from 'source-map-support';
+install();
+
 import v from 'validate.js';
 import ErrorFactory from 'simple-error-factory';
 import R from 'ramda';
-
-import {install} from 'source-map-support';
-install();
+import validators from './validators';
 
 const ValidationError = ErrorFactory('validation');
 const SchemaError = ErrorFactory('schema');
