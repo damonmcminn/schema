@@ -36,6 +36,10 @@ export default function createSchemaValidator(schema) {
     return x;
   });
 
+  let stringValidators = ['min', 'max'];
+  // now add validators to extra validation list e.g. min,max
+
+
   let find = function(field) {
     return R.find(R.propEq('field', field), typedSchema);
   };
