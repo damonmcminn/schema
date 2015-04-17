@@ -1,0 +1,31 @@
+{
+  "name": "nosql-schema",
+  "version": "0.1.0",
+  "description": "NoSQL Schema Validation",
+  "main": "index.js",
+  "dependencies": {
+    "ramda": "^0.13.0",
+    "simple-error-factory": "^0.2.0",
+    "source-map-support": "^0.2.10",
+    "validate.js": "^0.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/damonmcminn/nosql-schema.git"
+  },
+  "keywords": [
+    "nosql",
+    "schema",
+    "validate"
+  ],
+  "author": "Damon McMinn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/damonmcminn/nosql-schema/issues"
+  },
+  "homepage": "https://github.com/damonmcminn/nosql-schema"
+}
