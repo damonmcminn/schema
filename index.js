@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/NoSQLSchema');
+module.exports = require('./lib/schema');

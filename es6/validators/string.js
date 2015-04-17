@@ -1,4 +1,4 @@
-import main from './main';
+import getFields from './getFields';
 import ErrorFactory from 'simple-error-factory';
 import v from 'validate.js';
 
