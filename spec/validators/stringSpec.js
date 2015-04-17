@@ -1,6 +1,6 @@
 'use strict';
 
-const str = require('../lib/validators/string');
+const str = require('../../lib/validators/string');
 
 describe('validators/string', function() {
 

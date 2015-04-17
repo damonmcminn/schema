@@ -1,31 +1,21 @@
-const fields = [
-  'min',
-  'max',
-  'fake'
-];
+import main from './main';
+import ErrorFactory from 'simple-error-factory';
+import v from 'validate.js';
+
+const NumberError = ErrorFactory('number');
+
+const fields = ['min', 'max'];
 
 export default function(schema, doc) {
-  
+
   let val = doc[schema.field];
 
-  /**
-   * type can be validated in here
-  console.log(val.constructor.name);
-  console.log(schema.type);
-  **/
-
-  // main.js
-  let xs = fields.map(x => {
-    return {
-      [x]: schema[x],
-      name: x
-    };
-  }).filter(x => x[x.name]);
-
-
-
-
-
+  if (!v.isString(val)) {
+    return new TypeError(`${val} not ${schema.type}`);
+  }
+  
+  let xs = main(fields, schema);
+  console.log(xs);
   return xs;
 
 }
