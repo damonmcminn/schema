@@ -127,21 +127,6 @@ describe('createSchemaValidator', function() {
 
     });
 
-    it('should validate number ranges', function() {
-
-      let validate = n([
-        {
-          field: 'num',
-          type: Number,
-          min: 1,
-          max: 9
-        }
-      ]);
-
-      expect(validate({num: 0}).message).toBe('0 not in range 1 to 9');
-
-    });
-
     it('should return doc with defaults', function() {
 
       let validate = n([
