@@ -1,9 +1,15 @@
 export default function(fields, schema) {
 
-  return fields.filter(field => schema[field])
+  /**
+   * field: {name, fn}
+   * schema: {field, type, ....}
+   */
+
+  return fields.filter(field => schema[field.name])
     .map(field => {
       return {
-        [field]: schema[field]
+        name: field.name,
+        val: schema[field.name]
       }
     });
 }

@@ -13,14 +13,19 @@ describe('validators/main', function() {
       max: 9
     };
 
-    let doc = {
-      num: 1
-    };
+    let fields = [
+      {
+        name: 'min',
+        fn: function(x, min) {
+          return x >= min;
+        }
+      }
+    ];
     
-    let result = main(['min'], schema, doc);
-    let noFields = main([], schema, doc);
+    let result = main(fields, schema);
+    let noFields = main([], schema);
     expect(result.length).toBe(1);
-    expect(result[0].min).toBe(1);
+    expect(result[0].val).toBe(1);
     expect(noFields.length).toBe(0);
 
   });
