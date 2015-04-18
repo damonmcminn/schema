@@ -37,12 +37,8 @@ describe('validators/main', function() {
       field: 'num',
       type: 'Number',
     };
-
-    let doc = {
-      num: 1
-    };
     
-    let result = main(['min', 'max'], schema, doc);
+    let result = main([{name: 'min', fn: function() {}}], schema);
     expect(result.length).toBe(0);
 
   });
