@@ -9,7 +9,8 @@ export default function(fields, schema) {
     .map(field => {
       return {
         name: field.name,
-        val: schema[field.name]
+        val: schema[field.name],
+        fn: field.fn
       }
     });
 }
