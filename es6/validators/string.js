@@ -1,6 +1,6 @@
 import getFields from './getFields';
 import ErrorFactory from 'simple-error-factory';
-import v from 'validate.js';
+import {isString} from 'js-type-check';
 
 const NumberError = ErrorFactory('number');
 
@@ -11,7 +11,7 @@ export default function(schema, doc) {
 
   let val = doc[schema.field];
 
-  if (!v.isString(val)) {
+  if (!isString(val)) {
     return new TypeError(`${val} not ${schema.type}`);
   }
 

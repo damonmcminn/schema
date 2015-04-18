@@ -4,10 +4,10 @@
   "description": "Schema Validation",
   "main": "index.js",
   "dependencies": {
+    "js-type-check": "git://github.com/damonmcminn/js-type-check.git",
     "ramda": "^0.13.0",
     "simple-error-factory": "^0.2.0",
     "source-map-support": "^0.2.10",
-    "validate.js": "^0.7.1"
   },
   "devDependencies": {},
   "scripts": {

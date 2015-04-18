@@ -1,7 +1,7 @@
 import {install} from 'source-map-support';
 install();
 
-import v from 'validate.js';
+import * as v from 'js-type-check';
 import ErrorFactory from 'simple-error-factory';
 import R from 'ramda';
 import validators from './validators';
