@@ -17,11 +17,12 @@ export default function(fields, schema, val) {
     .map(validator => {
       return {
         validator: validator.name,
-        value: validator.val
+        validatorVal: validator.val,
+        actualVal: val
       }
     });
 
   let valid = failures.length === 0;
 
-  return [valid, val, failures];
+  return [valid, failures];
 }

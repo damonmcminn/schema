@@ -17,7 +17,7 @@ describe('validators/main', function() {
     }
   };
   
-  it('should return a triplet [valid, val, failures]', function() {
+  it('should return a pair [valid, failures]', function() {
 
     let schema = {
       field: 'num',
@@ -33,10 +33,9 @@ describe('validators/main', function() {
     expect(pass[0]).toBe(true);
     expect(fail[0]).toBe(false);
 
-    expect(fail[2][0].validator).toBe('max');
+    expect(fail[1][0].validator).toBe('max');
 
     expect(noValidators[0]).toBe(true);
-    expect(noValidators[1]).toBe(10);
 
   });
 
@@ -48,8 +47,7 @@ describe('validators/main', function() {
     
     let result = main([{name: 'min', fn: function() {}}], schema, 99);
     expect(result[0]).toBe(true);
-    expect(result[1]).toBe(99);
-    expect(result[2].length).toBe(0);
+    expect(result[1].length).toBe(0);
 
   });
 
