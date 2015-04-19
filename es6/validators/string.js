@@ -2,7 +2,7 @@ import getFields from './getFields';
 import ErrorFactory from 'simple-error-factory';
 import {isString} from 'js-type-check';
 
-const NumberError = ErrorFactory('number');
+const StringError = ErrorFactory('string');
 
 // no fields as of yet
 const fields = [];
