@@ -1,9 +1,9 @@
 'use strict';
-var main = require('../../lib/validators/getFields');
+var main = require('../../lib/validators/main');
 
 describe('validators/main', function() {
 
-  it('should return a list of field/value pairs to validate', function() {
+  it('should return a lis', function() {
 
     // has been converted to typed schema
     let schema = {
