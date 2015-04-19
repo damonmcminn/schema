@@ -19,6 +19,19 @@ const validators = [
   }
 ];
 
+/**
+ * validators = import {number} from validators
+ * {number: [min, max], string: [length, chars]}
+ *
+ * above are mutable and therefore can be added to
+ *
+ * schema accepts optional validators
+ * {number: [equals]}
+ *
+ * createSchema(schema, validators)
+ * iterate validators and concat extras
+ */
+
 export default (schema, doc) => {
 
   let val = doc[schema.field];
