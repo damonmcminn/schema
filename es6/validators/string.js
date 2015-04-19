@@ -1,6 +1,6 @@
-import getFields from './getFields';
 import ErrorFactory from 'simple-error-factory';
 import {isString} from 'js-type-check';
+import validator from './main';
 
 const StringError = ErrorFactory('string');
 
