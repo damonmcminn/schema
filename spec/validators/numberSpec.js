@@ -18,8 +18,10 @@ describe('validators/number', function() {
   });
 
   it('should return NumberError if val fails number validation', function() {
+    let fail = n(schema, {num: 0})
 
-    expect(n(schema, {num: 0}).name).toBe('NumberError');
+    expect(fail.name).toBe('NumberError');
+    expect(fail.message[0].validator).toBe('min');
 
   });
 });

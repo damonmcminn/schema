@@ -1,10 +1,10 @@
 import {isNumber} from 'js-type-check';
 import ef from 'simple-error-factory';
-import getFields from './getFields';
+import validator from './main';
 
 const NumberError = ef('number');
 
-const fields = [
+const validators = [
   {
     name: 'min',
     fn: function(x, min) {
@@ -24,20 +24,11 @@ export default (schema, doc) => {
   let val = doc[schema.field];
 
   if (!isNumber(val)) {
-    return new TypeError(`${val} is not ${schema.type.constructor.name}`);
+    return new TypeError(`${val} is not a Number`);
   }
 
-  // v === validator
-  let result = getFields(fields, schema)
-    .filter(v => !v.fn(val, v.val))
-    .map(v => {
-      return {
-        failed: v.name,
-        value: val,
-        [v.name]: v.val
-      }
-    });
+  let [valid, failures] = validator(validators, schema, val);
 
-  return result.length === 0 ? doc : NumberError(result);
+  return valid ? doc : NumberError(failures);
 
 }
