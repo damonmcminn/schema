@@ -1,16 +1,16 @@
-export default function(fields, schema, val) {
+export default function(validators, schema, val) {
 
   /**
-   * field: {name, fn}
+   * validator: {name, fn}
    * schema: {field, type, ....}
    */
 
-  let failures = fields.filter(field => schema[field.name])
-    .map(field => {
+  let failures = validators.filter(validator => schema[validator.name])
+    .map(validator => {
       return {
-        name: field.name,
-        val: schema[field.name],
-        fn: field.fn
+        name: validator.name,
+        val: schema[validator.name],
+        fn: validator.fn
       }
     })
     .filter(validator => !validator.fn(val, validator.val))

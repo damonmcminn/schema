@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/schema');
+module.exports = require('./lib/createSchema');

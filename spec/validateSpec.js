@@ -1,7 +1,7 @@
 'use strict';
-var main = require('../../lib/validators/main');
+var main = require('../../lib/types/main');
 
-describe('validators/main', function() {
+describe('types/main', function() {
 
   let min = {
     name: 'min',
