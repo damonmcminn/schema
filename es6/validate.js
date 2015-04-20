@@ -1,4 +1,4 @@
-export default function(validators, schema, val) {
+export default function validate(validators, schema, val) {
 
   /**
    * validator: {name, fn}

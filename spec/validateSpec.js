@@ -1,7 +1,7 @@
 'use strict';
-var main = require('../../lib/types/main');
+var validate = require('../lib/validate');
 
-describe('types/main', function() {
+describe('validate', function() {
 
   let min = {
     name: 'min',
@@ -25,10 +25,10 @@ describe('types/main', function() {
       max: 9
     };
 
-    let pass = main([min], schema, 2);
-    let fail = main([min, max], schema, 99);
+    let pass = validate([min], schema, 2);
+    let fail = validate([min, max], schema, 99);
 
-    let noValidators = main([], schema, 10);
+    let noValidators = validate([], schema, 10);
 
     expect(pass[0]).toBe(true);
     expect(fail[0]).toBe(false);
@@ -45,7 +45,7 @@ describe('types/main', function() {
       field: 'num'
     };
     
-    let result = main([{name: 'min', fn: function() {}}], schema, 99);
+    let result = validate([{name: 'min', fn: function() {}}], schema, 99);
     expect(result[0]).toBe(true);
     expect(result[1].length).toBe(0);
 
