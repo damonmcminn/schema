@@ -1,24 +1,32 @@
-import validators from './validators';
-import {isObject} from 'js-type-check';
+import typeValidators from './typeValidators';
+import * as tc from 'js-type-check';
 
-export default function addValidator(additional) {
+export default function addValidators(additional) {
 
-  if (isObject(additional)) {
+  let validators;
+  let errors;
+  let isArray = tc.isArray(additional);
+  let isDefined = !tc.isUndefined(additional);
+  let invalidObjects;
+  let valid;
 
-    Object.keys(additional).forEach(type => {
-      
-      let original = validators[type];
-
-      if (!original) {
-        validators[type] = additional[type]
-      } else {
-        let added = validators[type].concat(additional[type]);
-        validators[type] = added;
-      }
-    });
-
+  if (isArray) {
+    valid = additional.filter(x => {
+      return !tc.isString(x.type)
+        || !tc.isString(x.name)
+        || !tc.isFunction(x.fn);
+    }).length === 0;
   }
 
-  return validators;
+  if (!isDefined) {
+    validators = typeValidators;
+  } else if (valid) {
+    validators = Array.prototype.concat(typeValidators, additional);
+  } else {
+    let msg = 'A validator is not in form {type,name,fn}';
+    [validators, errors] = [false, new TypeError(msg)];
+  }
+
+  return [validators, errors];
 
 }
