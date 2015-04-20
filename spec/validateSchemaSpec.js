@@ -14,10 +14,10 @@ describe('validateSchema', function() {
     let invalid = {foo: 'bar'};
 
     expect(fn()).toThrowError(TypeError);
-    expect(fn([])).toThrowError(TypeError);
-    expect(fn([{}])).toThrowError(TypeError);
+    expect(fn([])).toThrow();
+    expect(fn([{}])).toThrow();
     expect(fn([1])).toThrowError(TypeError);
-    expect(fn([invalid])).toThrowError(TypeError);
+    expect(fn([invalid])).toThrow();
     expect(fn([[]])).toThrowError(TypeError);
     expect(fn(1)).toThrowError(TypeError);
     expect(fn([null])).toThrowError(TypeError);

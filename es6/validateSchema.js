@@ -1,6 +1,5 @@
 import {isArray, isObject} from 'js-type-check';
 import ErrorFactory from 'simple-error-factory';
-import R from 'ramda';
 
 const SchemaError = ErrorFactory('schema');
 
@@ -11,16 +10,21 @@ export default function validateSchema(schema) {
    * anything else will throw an error
    */
 
-  let err = new TypeError('Invalid schema');
 
   if (!isArray(schema)) {
-    throw err;
+    throw new TypeError;
   }
 
-  let valid = schema.filter(s => s.type && s.field).length === schema.length;
+  let notObjects = schema.filter(s => isObject(s)).length !== schema.length;
 
-  if (!valid || schema.length === 0) {
-    throw err;
+  if (notObjects) {
+    throw new TypeError;
+  }
+
+  let invalid = schema.filter(s => s.type && s.field).length !== schema.length;
+
+  if (invalid || schema.length === 0) {
+    throw SchemaError('Invalid schema');
   }
 
   return true;
