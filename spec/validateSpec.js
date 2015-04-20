@@ -35,7 +35,8 @@ describe('validate', function() {
 
     expect(fail[1][0].validator).toBe('max');
 
-    expect(noValidators[0]).toBe(true);
+    // validators are required
+    expect(noValidators[0]).toBe(false);
 
   });
 

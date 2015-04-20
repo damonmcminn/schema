@@ -5,7 +5,7 @@ export default function validate(validators, schema, val) {
    * schema: {field, type, ....}
    */
 
-  let failures = validators.filter(validator => schema[validator.name])
+  let failed = validators.filter(validator => schema[validator.name])
     .map(validator => {
       return {
         name: validator.name,
@@ -22,7 +22,7 @@ export default function validate(validators, schema, val) {
       }
     });
 
-  let valid = failures.length === 0;
+  let valid = failed.length === 0 && validators.length > 0;
 
-  return [valid, failures];
+  return [valid, failed];
 }
