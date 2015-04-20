@@ -5,38 +5,33 @@ const fn = function() {};
 
 describe('addValidators', function() {
 
-  it('should return a concatted list of validators', function() {
+  let additional = {
+    type: 'number',
+    name: 'additional',
+    fn: fn
+  };
 
-    let additional = {
-      type: 'number',
-      name: 'additional',
-      fn: fn
-    };
+  it('should return a concatted list of validators', function() {
 
     let result = av([additional]);
 
-    let first = result[0].shift();
-    let last = result[0].pop();
+    let first = result.shift();
+    let last = result.pop();
 
     expect(first.name).toBe('type');
     expect(last.name).toBe('additional');
 
   });
 
-  it('should return [false, error] if parameters are malformed', function() {
+  it('should throw TypeError if parameters are malformed', function() {
 
-    let additional = {foo: 'bar'};
+    let notAnArray = function() {av(additional) };
 
-    let result = av([additional]);
-    
-    expect(result[0]).toBe(false);
-    expect(result[1].name).toBe('TypeError');
+    delete additional.type;
+    let malformed = function() {av(additional)};
 
-    expect(av()[0][0].name).toBe('type');
-    expect(av([])[0][0].name).toBe('type');
-
-    // input not an array
-    expect(av(1)[0]).toBe(false);
+    expect(notAnArray).toThrowError(TypeError);
+    expect(malformed).toThrowError(TypeError);
 
   });
 
