@@ -2,6 +2,7 @@ import validateSchema from './validateSchema';
 import addValidators from './addValidators';
 import validate from './validate';
 import ef from 'simple-error-factory';
+import {isDefined} from 'js-type-check';
 
 const ValidationError = ef('validation');
 
@@ -14,7 +15,7 @@ export default function createSchema(schema, additionalValidators) {
 
   // throws if schema or additional validators invalid
   validateSchema(schema);
-  const validators = addValidators(additionalValidators);
+  const schemaValidators = addValidators(additionalValidators);
 
   schema.forEach(s => {
     s.validator = s.type.prototype.constructor.name.toLowerCase();
@@ -22,17 +23,40 @@ export default function createSchema(schema, additionalValidators) {
 
   let required = schema.filter(s => s.required).map(s => s.field);
   let defaults = schema.filter(s => s.default).map(s => s.field);
-  console.log(required);
-  console.log(defaults);
 
   return function(obj, update) {
 
     let missing = required.filter(r => obj[r]).length !== required.length;
 
-    if (missing) {
+    if (missing && !update) {
       return ValidationError('Missing a required field');
     }
     
+    let failed = [];
+
+    schema.forEach(s => {
+
+      let val = obj[s.field];
+
+      // only validate a field with a value
+      if (isDefined(val)) {
+
+        let validators = schemaValidators.filter(v => v.type === s.validator);
+        let [valid, failures] = validate(validators, s, val);
+        
+        failures.forEach(failure => failed.push(failure));
+      } else if (s.default) {
+        obj[s.field] = s.default;
+      }
+
+    });
+    
+    let err = ValidationError('Failed validation', {failed});
+
+
+
+    return failed.length > 0 ? err : obj;
+
   }
 
 }
