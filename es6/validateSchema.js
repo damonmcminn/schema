@@ -21,7 +21,11 @@ export default function validateSchema(schema) {
     throw new TypeError;
   }
 
-  let invalid = schema.filter(s => s.type && s.field).length !== schema.length;
+  // type and field required
+  // either required OR default, not both
+  let invalid = schema.filter(s => {
+    return (s.type && s.field) && !(s.required && s.default);
+  }).length !== schema.length;
 
   if (invalid || schema.length === 0) {
     throw SchemaError('Invalid schema');
