@@ -6,7 +6,7 @@ const fn = function() {};
 describe('addValidators', function() {
 
   let additional = {
-    type: 'number',
+    type: Boolean,
     name: 'additional',
     fn: fn
   };
@@ -20,6 +20,7 @@ describe('addValidators', function() {
 
     expect(first.name).toBe('type');
     expect(last.name).toBe('additional');
+    expect(last.type).toBe('boolean');
 
   });
 

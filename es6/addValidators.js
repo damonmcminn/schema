@@ -10,7 +10,7 @@ export default function addValidators(additional) {
 
   if (isArray) {
     valid = additional.filter(x => {
-      return !tc.isString(x.type)
+      return !tc.isFunction(x.type)
         || !tc.isString(x.name)
         || !tc.isFunction(x.fn);
     }).length === 0;
@@ -19,10 +19,12 @@ export default function addValidators(additional) {
   if (!isDefined) {
     return typeValidators;
   } else if (valid) {
-    return Array.prototype.concat(typeValidators, additional);
+    additional.forEach(a => {
+      a.type = a.type.prototype.constructor.name.toLowerCase();
+    });
+    return typeValidators.concat(additional);
   } else {
-    let err = new TypeError('A validator is not in form {type,name,fn}');
-    throw err;
+    throw new TypeError('A validator is not in form {type,name,fn}');
   }
 
 }
