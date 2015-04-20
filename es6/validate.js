@@ -22,6 +22,7 @@ export default function validate(validators, schema, val) {
       }
     });
 
+  // always at least one validator (type)
   let valid = failed.length === 0 && validators.length > 0;
 
   return [valid, failed];
