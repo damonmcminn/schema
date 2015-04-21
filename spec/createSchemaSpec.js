@@ -21,70 +21,92 @@ describe('createSchema', function() {
 
   });
 
-  it('should a validate an object according to the schema', function() {
+  describe('returned fn', function() {
 
-    let required = schema.map(function(s) {
-      return {
-        type: s.type,
-        field: s.field,
-        required: true
-      }
+    it('should validate an object according to the schema', function() {
+
+      let required = schema.map(function(s) {
+        return {
+          type: s.type,
+          field: s.field,
+          required: true
+        }
+      });
+
+      let missing = cs(required)({num: 1});
+      let missingButIsUpdate = cs(required)({str: 'update'}, true);
+
+      let fail = cs(schema)({num: 'wrong type'});
+      let pass = cs(schema)({str: 'pass'});
+
+      expect(missing.message).toBe('Missing a required field');
+      expect(missingButIsUpdate.str).toBe('update');
+
+      expect(fail.message).toBe('Failed validation');
+      expect(fail.failed[0].validator).toBe('type');
+
+      expect(pass.str).toBe('pass');
+
     });
 
-    let missing = cs(required)({num: 1});
-    let missingButIsUpdate = cs(required)({str: 'update'}, true);
+    it('should set defaults if not supplied', function() {
 
-    let fail = cs(schema)({num: 'wrong type'});
-    let pass = cs(schema)({str: 'pass'});
+      let defaults = schema.map(function(s) {
+        return {
+          type: s.type,
+          field: s.field,
+          default: 'default'
+        }
+      });
 
-    expect(missing.message).toBe('Missing a required field');
-    expect(missingButIsUpdate.str).toBe('update');
+      let result = cs(defaults)({});
 
-    expect(fail.message).toBe('Failed validation');
-    expect(fail.failed[0].validator).toBe('type');
-
-    expect(pass.str).toBe('pass');
-
-  });
-
-  it('should set defaults if not supplied', function() {
-
-    let defaults = schema.map(function(s) {
-      return {
-        type: s.type,
-        field: s.field,
-        default: 'default'
+      for (let key in result) {
+        expect(result[key]).toBe('default');
       }
+
     });
 
-    let result = cs(defaults)({});
+    it('should only set defaults if not supplied', function() {
 
-    for (let key in result) {
-      expect(result[key]).toBe('default');
-    }
+      let schema = [
+        {
+          type: String,
+          field: 'str',
+          default: 'default'
+        },
+        {
+          type: Boolean,
+          field: 'defaulted',
+          default: true
+        }
+      ];
 
-  });
+      let result = cs(schema)({str: 'foo'});
 
-  it('should only set defaults if not supplied', function() {
+      expect(result.str).toBe('foo');
+      expect(result.defaulted).toBe(true);
+      
+    });
 
-    let schema = [
-      {
+    it('validation should fail if any object properties are not declared in the schema', function() {
+
+      let schema = [{
         type: String,
-        field: 'str',
-        default: 'default'
-      },
-      {
-        type: Boolean,
-        field: 'defaulted',
-        default: true
-      }
-    ];
+        field: 'name'
+      }];
 
-    let result = cs(schema)({str: 'foo'});
+      let obj = {
+        name: 'foo',
+        age: 42,
+        location: 'London'
+      };
 
-    expect(result.str).toBe('foo');
-    expect(result.defaulted).toBe(true);
-    
+      let result = /age,location/.test(cs(schema)(obj).message);
+      expect(result).toBe(true);
+
+    });
+
   });
 
 });
