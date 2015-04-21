@@ -1,5 +1,7 @@
 'use strict';
 var validate = require('../lib/validate');
+var isArray = require('js-type-check').isArray;
+var tv = require('../lib/typeValidators');
 
 describe('validate', function() {
 
@@ -49,6 +51,56 @@ describe('validate', function() {
     let result = validate([{name: 'min', fn: function() {}}], schema, 99);
     expect(result[0]).toBe(true);
     expect(result[1].length).toBe(0);
+
+  });
+
+  it('should optionally validate array elements', function() {
+
+    let validators = tv.filter(function(v) {
+      return v.type === 'array';
+    });
+
+    let schema = {
+      field: 'xs',
+      type: Array,
+    };
+
+    expect(validate(validators, schema, [])[0]).toBe(true);
+
+    schema.elements = 'mixed';
+    expect(validate(validators, schema, [1, 'str', true])[0]).toBe(true);
+
+    schema.elements = String;
+    expect(validate(validators, schema, [1, 'str', true])[0]).toBe(false);
+    expect(validate(validators, schema, ['str', 'foo', 'bar'])[0]).toBe(true);
+
+    schema.elements = Boolean;
+    expect(validate(validators, schema, ['foo'])[0]).toBe(false);
+    expect(validate(validators, schema, [true])[0]).toBe(true);
+
+    schema.elements = Number;
+    expect(validate(validators, schema, ['foo'])[0]).toBe(false);
+    expect(validate(validators, schema, [1])[0]).toBe(true);
+
+    schema.elements = RegExp;
+    expect(validate(validators, schema, ['foo'])[0]).toBe(false);
+    expect(validate(validators, schema, [/regex/])[0]).toBe(true);
+
+    schema.elements = Date;
+    expect(validate(validators, schema, [Date.now()])[0]).toBe(false);
+    expect(validate(validators, schema, [new Date()])[0]).toBe(true);
+
+    schema.elements = Array;
+    expect(validate(validators, schema, [Date.now()])[0]).toBe(false);
+    expect(validate(validators, schema, [[1, 'str', true]])[0]).toBe(true);
+
+    schema.elements = Function;
+    expect(validate(validators, schema, [Date.now()])[0]).toBe(false);
+    expect(validate(validators, schema, [function(){}])[0]).toBe(true);
+
+    schema.elements = Object;
+    expect(validate(validators, schema, ['str'])[0]).toBe(false);
+    expect(validate(validators, schema, [{}, {foo: 'bar'}])[0]).toBe(true);
 
   });
 

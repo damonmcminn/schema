@@ -78,5 +78,17 @@ export default [
     fn: function(xs) {
       return tc.isArray(xs);
     }
+  },
+  {
+    type: 'array',
+    name: 'elements',
+    fn: function(xs, type) {
+      // if type === [schema...]?
+      if (type === 'mixed') {
+        return true;
+      }
+
+      return xs.filter(val => tc.typeCheck(type, val)).length === xs.length;
+    }
   }
 ];
